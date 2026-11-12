@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hexblade"
+version = "0.2.0"
+license = {text = "MIT"}
+description = "Linux software pro klávesnici CZC.Gaming Hexblade (SONiX 0c45:8006)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+gui = ["PySide6>=6.5"]
+
+[project.scripts]
+hexblade = "hexblade.cli:main"
+
+[tool.setuptools]
+packages = ["hexblade"]

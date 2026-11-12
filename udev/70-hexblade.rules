@@ -1,0 +1,2 @@
+# CZC.Gaming Hexblade (SONiX 0c45:8006) – user access to the config HID interface
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0c45", ATTRS{idProduct}=="8006", TAG+="uaccess"
