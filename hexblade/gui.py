@@ -1184,6 +1184,19 @@ class MainWindow(QMainWindow):
         if self._scripts:
             self.script_list.setCurrentRow(row)
             self._script_selected(self.script_list.currentItem())
+        else:
+            self._script = None
+            self._script_light = None
+            self.sc_title.setText("Zatím žádné skripty")
+            self.sc_desc.setText("Skript je krátký soubor v Pythonu, který navrhne podsvícení. "
+                                 "Začni tlačítkem „Nový skript…“ – šablona popisuje, co skript umí.")
+            while self.sc_form.count():
+                wdg = self.sc_form.takeAt(0).widget()
+                if wdg:
+                    wdg.deleteLater()
+            self.sc_error.hide()
+            for b in (self.sc_apply, self.sc_reset, self.sc_edit):
+                b.setEnabled(False)
 
     def _script_values(self) -> dict:
         s = self._script
@@ -1207,6 +1220,8 @@ class MainWindow(QMainWindow):
         if not self._script:
             return
         s = self._script
+        self.sc_reset.setEnabled(True)
+        self.sc_edit.setEnabled(True)
         self.state["script"] = s.id
         prof.save_state(self.state)
         self.sc_title.setText(s.name)

@@ -57,23 +57,13 @@ Grafické rozhraní: spusť **Hexblade** z menu, nebo `hexblade`.
 
 ### Skripty
 
-Vestavěné temné sci-fi návrhy: *Temný kokpit*, *Horizont událostí* (černá
-díra), *Hvězdné pole*, *Datový déšť*, *Rudý poplach* a reaktivní efekty běžící
-v klávesnici: *Neonová stopa* (rozsvítí se stisknutá klávesa), *Reaktor*
-(vlna od stisknuté klávesy) a *Reaktivní kokpit* (tmavě modrý podklad
-a reakce na stisk).
-
-Reaktivní efekty umí i **barvu pozadí** mezi stisky (v záložce Podsvícení
-„Barva pozadí mezi stisky“, ve skriptu `kb.effect(..., background=...)`).
-Je to skrytá funkce firmwaru, kterou původní software nepoužívá. Pozadí je
-vždy jen jednobarevné: vlastní barvy kláves a reakci na stisk klávesnice
-spojit neumí.
-
-Vlastní skripty patří do `~/.config/hexblade/scripts/`. Nejjednodušší
-začátek je tlačítko „Nový skript…“, které vytvoří šablonu s popisem API:
+Skripty si píše každý sám: aplikace obsahuje jen šablonu a jednoduchou
+ukázku *Přechod barev*. Vlastní skripty patří do
+`~/.config/hexblade/scripts/`. Nejsnazší začátek je tlačítko
+„Nový skript…“, které vytvoří šablonu s popisem všeho, co skript umí:
 
 ```python
-from hexblade.fx import gradient, dim
+from hexblade.fx import dim
 
 NAME = "Můj návrh"
 PARAMS = {"barva": {"type": "color", "default": "#0040ff", "label": "Barva"}}
@@ -83,6 +73,12 @@ def build(kb, p):
     kb.set("wasd", "#ff3000")
     # nebo animovaný efekt z klávesnice: kb.effect("ripples", color=p.barva)
 ```
+
+Reaktivní efekty umí i **barvu pozadí** mezi stisky (v záložce Podsvícení
+„Barva pozadí mezi stisky“, ve skriptu `kb.effect(..., background=...)`).
+Je to skrytá funkce firmwaru, kterou původní software nepoužívá. Pozadí je
+vždy jen jednobarevné: vlastní barvy kláves a reakci na stisk klávesnice
+spojit neumí.
 
 Skript vytvoří návrh, který se do klávesnice zapíše jednou. Plynulé animace
 počítané v počítači nejsou možné: klávesnice ukládá podsvícení do flash
@@ -101,8 +97,8 @@ hexblade light spectrum -s 8 -b 12         # spektrum, rychlost 8, jas 12
 hexblade light breath -c 00aaff            # dýchání
 hexblade light off                         # zhasnout
 hexblade scripts                           # skripty a jejich parametry
-hexblade script hvezdne_pole -p seminko=7  # spustit skript s parametrem
-hexblade script temny_kokpit --save        # … a uložit do aktivního profilu
+hexblade script prechod_barev -p jas=10    # spustit skript s parametrem
+hexblade script prechod_barev --save       # … a uložit do aktivního profilu
 hexblade apply "Hraní"                     # nahrát uložený profil (jen podsvícení)
 hexblade apply "Hraní" --keymap            # … i s mapováním kláves
 ```
