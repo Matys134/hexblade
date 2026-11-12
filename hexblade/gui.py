@@ -195,11 +195,13 @@ class KeyboardView(QWidget):
             # legend
             label = k.cz if self.legend == "cz" else k.us
             if label:
-                txt = QColor("#e8eaf0") if not dim else QColor("#555b66")
-                if intensity > 0.02 and not dim:
-                    txt = QColor(led).lighter(170) if led.lightnessF() < 0.6 else QColor(led)
-                font.setPixelSize(max(8, int(self._unit * (0.26 if len(label) <= 2 else 0.2))))
-                font.setBold(len(label) <= 2)
+                # always light legends, only tinted by the LED hue, so they stay
+                # readable on dark colours too
+                txt = QColor("#555b66") if dim else QColor("#eef0f4")
+                if not dim and intensity > 0.02 and led.hsvSaturationF() > 0.15 and led.hsvHueF() >= 0:
+                    txt = QColor.fromHsvF(led.hsvHueF(), 0.28, 1.0)
+                font.setPixelSize(max(9, int(self._unit * (0.28 if len(label) <= 2 else 0.22))))
+                font.setBold(True)
                 p.setFont(font)
                 p.setPen(txt)
                 p.drawText(face, Qt.AlignCenter, label)
